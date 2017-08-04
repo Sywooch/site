@@ -16,7 +16,7 @@
                 <td><?=$good['name']?></td>
                 <td><?=$good['qty']?></td>
                 <td><?=$good['price']?></td>
-                <td><?=$good['sum']?></td>
+                <td><?=$good['price']*$good['qty']?></td>
             </tr>
 
 
@@ -24,9 +24,9 @@
         <tr>
             <td></td>
             <td></td>
-            <td>Итого: <?=$_SESSION['purchases.total']?></td>
+            <td>Итого: <?=$total?></td>
             <td></td>
-            <td><h1>Общее количество товаров в корзине<?=$_SESSION['purchases.qty']?></h1></td>
+            <td><h1>Общее количество товаров в корзине<?=$total_qty?></h1></td>
         </tr>
     </table>
 

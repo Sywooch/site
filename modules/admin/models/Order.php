@@ -3,7 +3,7 @@
 namespace app\modules\admin\models;
 
 use Yii;
-
+use app\base\ActiveRecord;
 /**
  * This is the model class for table "order".
  *
@@ -18,7 +18,7 @@ use Yii;
  * @property string $phone
  * @property string $address
  */
-class Order extends \yii\db\ActiveRecord
+class Order extends ActiveRecord
 {
     /**
      * @inheritdoc

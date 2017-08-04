@@ -43,8 +43,8 @@ $('.modal-body').on('click', '.del_product', function (e) {
 });
 $('#clear_basket').on('click', function () {
     $.ajax({
-        url: '/card/add',
-        data: {clear: '1'},
+        url: '/card/clear',
+
         type: 'POST',
         dataType: 'html',
         success: function (res) {
@@ -78,7 +78,7 @@ function reduceProduct(count, id) {
     if(count>1){
         $.ajax({
             url: '/card/edit',
-            data: {id: id, action: 'minus', page: 'add'},
+            data: {id: id, action: -1, page: 'add'},
             type: 'POST',
             dataType: 'html',
             success: function (res) {
@@ -97,7 +97,7 @@ function reduceProductShow(count, id) {
 
         $.ajax({
             url: '/card/edit',
-            data: {id: id, action: 'minus', page: 'show'},
+            data: {id: id, action: -1, page: 'show'},
             type: 'POST',
             dataType: 'html',
             success: function (res) {
@@ -115,7 +115,7 @@ $('#total').on('click', '.append', function () {
    var id=$(this).data('id');
    $.ajax({
        url: '/card/edit',
-       data: {id: id, action: 'plus' , page: 'show'},
+       data: {id: id, action: 1 , page: 'show'},
        type: 'POST',
        dataType: 'html',
        success: function (res) {
@@ -145,7 +145,7 @@ $('.modal-body').on('click', '.append', function () {
     var id=$(this).data('id');
     $.ajax({
         url: '/card/edit',
-        data: {id: id, action: 'plus', page: 'add'},
+        data: {id: id, action: 1, page: 'add'},
         type: 'POST',
         dataType: 'html',
         success: function (res) {

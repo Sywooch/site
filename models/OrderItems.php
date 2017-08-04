@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use yii\db\ActiveRecord;
+use app\base\ActiveRecord;
 /**
  * This is the model class for table "order_items".
  *

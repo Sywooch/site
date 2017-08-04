@@ -40,9 +40,7 @@ class GoodsController extends Controller
             'query' => Goods::find(),
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     /**
@@ -75,9 +73,7 @@ class GoodsController extends Controller
 //            }
         } else {
 
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->render('create', ['model' => $model]);
         }
     }
 
@@ -109,9 +105,7 @@ class GoodsController extends Controller
 
 
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            return $this->render('update', ['model' => $model]);
         }
     }
 

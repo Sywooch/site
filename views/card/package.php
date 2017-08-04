@@ -10,7 +10,7 @@ if (Yii::$app->session->hasFlash('success')){
 elseif (Yii::$app->session->hasFlash('error')){
     echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.Yii::$app->session->getFlash('error').'</div>';
 }
-if ($goods != null){
+if ($goods !== null){
 
     ?>
 
@@ -32,7 +32,7 @@ if ($goods != null){
                     <td><?=$good['name']?></td>
                     <td><?=$good['qty']?></td>
                     <td><?=$good['price']?></td>
-                    <td><?=$good['sum']?></td>
+                    <td><?=$good['price']*$good['qty']?></td>
                 </tr>
 
 
@@ -40,9 +40,9 @@ if ($goods != null){
             <tr>
                 <td></td>
                 <td></td>
-                <td>Итого: <?=$_SESSION['purchases.total']?></td>
+                <td>Итого: <?=$total?></td>
                 <td></td>
-                <td><h1>Общее количество товаров в корзине<?=$_SESSION['purchases.qty']?></h1></td>
+                <td><h1>Общее количество товаров в корзине<?=$total_qty?></h1></td>
             </tr>
         </table>
 

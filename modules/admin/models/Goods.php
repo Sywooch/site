@@ -4,7 +4,7 @@ namespace app\modules\admin\models;
 
 use Yii;
 use yii\web\UploadedFile;
-
+use app\base\ActiveRecord;
 /**
  * This is the model class for table "goods".
  *
@@ -15,7 +15,7 @@ use yii\web\UploadedFile;
  * @property string $cat
  * @property string $img
  */
-class Goods extends \yii\db\ActiveRecord
+class Goods extends ActiveRecord
 {
     public $image;
     public $gallery;

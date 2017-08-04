@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-use yii\db\ActiveRecord;
+use app\base\ActiveRecord;
 
 
 class User extends ActiveRecord implements \yii\web\IdentityInterface

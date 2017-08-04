@@ -42,7 +42,7 @@ $config = [
 
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'post/error',
         ],
         'mailer' => [
             'viewPath'=>'@app/mail',

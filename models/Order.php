@@ -1,8 +1,7 @@
 <?php
 
 namespace app\models;
-use yii\db\ActiveRecord;
-use Yii;
+use app\base\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 /**

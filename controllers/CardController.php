@@ -7,9 +7,14 @@
  */
 
 namespace app\controllers;
+use app\exceptions\MyException;
+use app\exceptions\NotFoundException;
+use app\models\Cart;
 use app\models\OrderItems;
 use app\models\Order;
+use app\models\UserCart;
 use app\modules\admin\models\Goods;
+use function foo\func;
 use Yii;
 
 use yii\web\Controller;
@@ -18,97 +23,101 @@ use app\models\Card;
 class CardController extends Controller
 {
 
-    //public $enableCsrfValidation = false;
-    public function actionIndex(){
 
-        $id=Yii::$app->request->get('id');
-        $good=Goods::findOne($id);
-        $session=Yii::$app->session;
-        $session->open();
-        if(!isset($_SESSION['purchases']['count'])) $_SESSION['purchases']['count']=0;
-       $_SESSION['purchases'][]=$good;
+    public function actionAdd()
+    {
 
-
-       //$session->destroy();
-
-        return $this->render('index', ['goods'=>$_SESSION['purchases']]);
-    }
-    public function actionAdd(){
-        $this->layout = false;
         $session = Yii::$app->session;
         $session->open();
+        $id = Yii::$app->request->get('id');
+        $good = Goods::findById($id);
+        $cart = new UserCart();
+        $goods = $cart->addToCard($good);
+        $total = array_reduce($goods, $cart->calcTotal());
 
-        if(isset($_POST['clear'])) {
-            $session->destroy();
-            return $this->render('clear');
-        }else {
-            $id = Yii::$app->request->get('id');
-            $good = Goods::findOne($id);
-            $card = new Card();
-            $card->addToCard($good);
+        return $this->renderPartial('add', ['goods' =>$goods, 'total' => $total]);
 
-
-           return $this->render('add', ['goods' => $_SESSION['purchases']]);
-        }
+    }
+    public function actionError(){
+        return $this->render('error');
     }
 
     public function actionShow(){
 
         $session = Yii::$app->session;
         $session->open();
-
-
-        return $this->render('show', ['goods' => $_SESSION['purchases']]);
+        $goods = Cart::find()->where(['user_id'=>$session['uniqid']])->all();
+        $userCart = new UserCart();
+        $total = array_reduce($goods, $userCart->calcTotal());
+        $total_qty = array_reduce($goods, $userCart->calcTotalQty());
+        return $this->render('show', ['goods' => $goods, 'total' => $total, 'total_qty' =>$total_qty]);
     }
-    protected function saveOrderItems($card, $order_id){
+    protected function saveOrderItems($card, $order_id ){
         foreach($card as $id=>$item) {
             $order_items = new OrderItems();
             $order_items->order_id = $order_id;
-            $order_items->product_id = $id;
+            $order_items->product_id = $item['product_id'];
             $order_items->name = $item['name'];
             $order_items->price = $item['price'];
             $order_items->qty_item = $item['qty'];
-            $order_items->sum_item = $item['sum'];
+            $order_items->sum_item = $item['price']*$item['qty'];
             $order_items->save();
         }
     }
+
+
     public function actionDelete(){
-        $this->layout = false;
+
         $session = Yii::$app->session;
         $session->open();
-        $good = Goods::findOne($_POST['key']);
-        $card = new Card();
-        $card->reCount($good);
-        unset($_SESSION['purchases'][$_POST['key']]);
-        return $this->render($_POST['page'], ['goods' => $_SESSION['purchases']]);
+        try {
+            $product = Cart::findById(['id' => $_POST['key']]);
+        }
+        catch (NotFoundException $e) {
+            return $this->renderPartial('error', ['exception' => $e]);
+        }
+        $product->delete();
+        $goods = Cart::find()->where(['user_id' => $session['uniqid']])->indexBy('id')->all();
+        return $this->renderPartial($_POST['page'], ['goods' => $goods]);
         }
     public function actionClear()
     {
-        if (Yii::$app->request->get('clear')) {
-            $session = Yii::$app->session;
-            $session->open();
-            $session->destroy();
-
+        if(!isset($_GET['show'])){
+            $this->layout = false;
         }
-        return $this->render('show', ['goods' => $_SESSION['purchases']]);
+            $cart = new UserCart();
+            $mes = $cart->clearBasket();
+
+
+        return $this->render('show', ['goods' => $mes]);
     }
+
     public function actionEdit()
     {
 
         $session = Yii::$app->session;
         $session->open();
         $id = $_POST['id'];
-        $this->layout = false;
-        if ($_POST['action']=='plus') {
-            $_SESSION['purchases'][$id]['qty']++;
-        }elseif ($_POST['action']=='minus'){
-                $_SESSION['purchases'][$id]['qty']--;
+        try {
+            $cart = Cart::findById($id);
         }
-        $_SESSION['purchases'][$id]['sum'] = $_SESSION['purchases'][$id]['price']*$_SESSION['purchases'][$id]['qty'];
-        $good = Goods::findOne($id);
-        $card = new Card();
-        $card->countUp($good, $_POST['action']);
-        return $this->render($_POST['page'], ['goods'=>$_SESSION['purchases']]);
+        catch (NotFoundException $e){
+            return $this->render('error', ['exception' => $e]);
+        }
+            if ($_POST['action'] == 1) {
+            $cart->qty++;
+            $cart->save();
+        } elseif ($_POST['action'] == -1) {
+            $cart->qty--;
+            $cart->save();
+        }
+        $goods = Cart::find()->where(['user_id' => $session['uniqid']])->all();
+
+        $total = new UserCart();
+        
+        $total = array_reduce($goods, $total->calcTotal());
+
+        return $this->renderPartial($_POST['page'], ['goods' => $goods, 'total' => $total]);
 
 
     }
@@ -117,28 +126,30 @@ class CardController extends Controller
         $session = Yii::$app->session;
         $session->open();
         $order = new Order();
+        $userCart = new UserCart();
+        $goods = Cart::find()->where(['user_id' => $session['uniqid']])->indexBy('id')->all();
+        $total = array_reduce($goods, $userCart->calcTotal());
+        $total_qty = array_reduce($goods, $userCart->calcTotalQty());
         if($order->load(Yii::$app->request->post())){
-            $order->qty = $_SESSION['purchases.qty'];
-            $order->sum = $_SESSION['purchases.total'];
+            $order->qty = $total_qty;
+            $order->sum = $total;
             if($order->save()){
-                $this->saveOrderItems($_SESSION['purchases'], $order->id);
+
+                $this->saveOrderItems($goods, $order->id);
                 Yii::$app->session->setFlash('success', 'Ваш заказ принят. Менеджер скоро свяжется с вами');
-                Yii::$app->mailer->compose('order', ['goods'=>$_SESSION['purchases']])
+                Yii::$app->mailer->compose('order', ['goods'=>$goods, 'total' => $total, 'total_qty' =>$total_qty])
                     ->setFrom(['vfresh65@gmail.com'=>'net-shop'])
                     ->setTo($order->email)
                     ->setSubject('Заказ')
                     ->send();
-                unset($_SESSION['purchases']);
-                unset($_SESSION['purchases.qty']);
-                unset($_SESSION['purchases.total']);
-
+                $userCart->clearBasket();
                 return $this->refresh();
             }else{
                 Yii::$app->session->setFlash('error', 'Ошибка оформления заказа');
             }
         }
 
-        return $this->render('package', ['goods' => $_SESSION['purchases'], 'order'=>$order]);
+        return $this->render('package', ['goods' => $goods, 'order'=>$order, 'total' => $total, 'total_qty' =>$total_qty]);
     }
 
 }

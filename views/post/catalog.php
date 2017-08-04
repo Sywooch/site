@@ -14,23 +14,22 @@
 
          <?=Html::img('@web/web/img/car.jpg', ['id' => 'car'])?>
         <div id="output">
-
              <?php foreach ($goods as $good) {?>
                     <div class="product">
 
-                        <?php
-                            $img = $good->getImage();
-                        ?>
-                        <img src="<?=$img->getUrl('100x100')?>">
-                        <div class="title"><?php echo mb_substr($good->title, 0, 31).'...'?></div>
-                        <div><?=$good->price?></div>
-                        <div>
-                            <?=Html::a('<input type="button" name="more" value="подробнее">', '@web/post/view?id='.$good->id )?>
-                        </div>
-                        <div style="text-align: center">
-                            <a href="<?=Url::to(['card/add', 'id'=>$good->id])?>" class="purchase" data-id="<?=$good->id?>"><button>купить</button></a>
-                        </div>
-                     </div>
+                    <?php
+                        $img = $good->getImage();
+                    ?>
+                    <img src="<?=$img->getUrl('100x100')?>">
+                    <div class="title"><?php echo mb_substr($good->title, 0, 31).'...'?></div>
+                    <div><?=$good->price?></div>
+                    <div>
+                        <?=Html::a('<input type="button" name="more" value="подробнее">', '@web/post/view?id='.$good->id )?>
+                    </div>
+                    <div style="text-align: center">
+                        <a href="<?=Url::to(['card/add', 'id'=>$good->id])?>" class="purchase" data-id="<?=$good->id?>"><button>купить</button></a>
+                    </div>
+                 </div>
              <?php }?>
 
         </div>
