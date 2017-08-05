@@ -34,9 +34,17 @@ $config = [
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'gii';
+    $config['bootstrap'][]    = 'gii';
     $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
+        'class'      => 'yii\gii\Module',
+        'generators' => [ //here
+            'model' => [ // generator name
+                'class'     => 'yii\gii\generators\model\Generator', // generator class
+                'templates' => [
+                    'my' => '@app/base/modelTemplates',
+                ],
+            ],
+        ],
     ];
 }
 

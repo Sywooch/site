@@ -2,11 +2,11 @@
 
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
-
+define('YII_ENV_DEV', true);
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'containerConfig'],
     'layout' => '_main',
     'language'=>'ru',
     'defaultRoute' => 'post/catalog',
@@ -42,7 +42,7 @@ $config = [
 
         ],
         'errorHandler' => [
-            'errorAction' => 'post/error',
+            'errorAction' => 'site/error',
         ],
         'mailer' => [
             'viewPath'=>'@app/mail',
@@ -76,6 +76,10 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'containerConfig' => [
+            'class' => \mertvetsky\yii2SimpleContainerConfigurator\SimpleContainerConfig::class,
+            'file' => __DIR__ . '/services.php',
         ],
         'db' => $db,
 

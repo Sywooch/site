@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace app\models;
 
-use Yii;
-use yii\web\UploadedFile;
 use app\base\ActiveRecord;
+use yii\web\UploadedFile;
+
 /**
  * This is the model class for table "goods".
  *
@@ -14,11 +14,18 @@ use app\base\ActiveRecord;
  * @property integer $price
  * @property string $cat
  * @property string $img
+ *
  */
-class Goods extends ActiveRecord
+class Good extends ActiveRecord
 {
-    public $image;
-    public $gallery;
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'goods';
+    }
+
     /**
      * @inheritdoc
      */
@@ -27,13 +34,8 @@ class Goods extends ActiveRecord
         return [
             'image' => [
                 'class' => 'rico\yii2images\behaviors\ImageBehave',
-            ]
+            ],
         ];
-    }
-
-    public static function tableName()
-    {
-        return 'goods';
     }
 
     /**
@@ -60,42 +62,52 @@ class Goods extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Название',
-            'discr' => 'Discr',
-            'price' => 'Цена',
-            'cat' => 'Категория',
-            'image' => 'изображение',
-            'gallery' => 'Галерея'
+            'id'      => 'ID',
+            'title'   => 'Название',
+            'discr'   => 'Discr',
+            'price'   => 'Цена',
+            'cat'     => 'Категория',
+            'image'   => 'изображение',
+            'gallery' => 'Галерея',
         ];
     }
+
     public function upload()
     {
         if ($this->validate()) {
-                $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
-                $this->image->saveAs($path);
-                $this->attachImage($path, true);
-                @unlink($path);
+            $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
+            $this->image->saveAs($path);
+            $this->attachImage($path, true);
+            @unlink($path);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
+
     public function uploadGallery()
     {
         if ($this->validate()) {
-            foreach ($this->gallery as $photo){
+            foreach ($this->gallery as $photo) {
                 $path = 'upload/store/' . $photo->baseName . '.' . $photo->extension;
                 $photo->saveAs($path);
                 $this->attachImage($path);
                 @unlink($path);
             }
 
-
             return true;
-        } else {
-            return false;
         }
+
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     * @return GoodQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new GoodQuery(get_called_class());
     }
 }

@@ -1,16 +1,47 @@
 <?php
 
 namespace app\models;
+
 use app\base\ActiveRecord;
+use yii\web\IdentityInterface;
 
-
-class User extends ActiveRecord implements \yii\web\IdentityInterface
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $auth_key
+ */
+class User extends ActiveRecord implements IdentityInterface
 {
-
-
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'user';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['username', 'password', 'auth_key'], 'required'],
+            [['username', 'password', 'auth_key'], 'string', 'max' => 255],
+        ];
+    }
+
+
+    /**
+     * @inheritdoc
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 
 
@@ -29,6 +60,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
 
     }
+
 
     /**
      * Finds user by username
@@ -76,7 +108,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         //return $this->password === $password;
         return \Yii::$app->security->validatePassword($password, $this->password);
     }
-    public function generateAuthKey(){
+
+    public function generateAuthKey()
+    {
         $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 }

@@ -2,8 +2,8 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Order;
 use Yii;
-use app\modules\admin\models\Order;
 use yii\data\ActiveDataProvider;
 
 use yii\web\NotFoundHttpException;

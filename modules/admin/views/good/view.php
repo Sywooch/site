@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Goods */
+/* @var $model \app\models\Good */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Goods', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Good', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php if (Yii::$app->session->hasFlash('success')){
