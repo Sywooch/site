@@ -2,8 +2,8 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Good;
 use Yii;
-use app\modules\admin\models\Goods;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,9 +11,9 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
- * GoodsController implements the CRUD actions for Goods model.
+ * GoodController implements the CRUD actions for Good model.
  */
-class GoodsController extends Controller
+class GoodController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,20 +31,20 @@ class GoodsController extends Controller
     }
 
     /**
-     * Lists all Goods models.
+     * Lists all Good models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Goods::find(),
+            'query' => Good::find(),
         ]);
 
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     /**
-     * Displays a single Goods model.
+     * Displays a single Good model.
      * @param integer $id
      * @return mixed
      */
@@ -56,13 +56,13 @@ class GoodsController extends Controller
     }
 
     /**
-     * Creates a new Goods model.
+     * Creates a new Good model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Goods();
+        $model = new Good();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Товар успешно добавлен');
@@ -78,7 +78,7 @@ class GoodsController extends Controller
     }
 
     /**
-     * Updates an existing Goods model.
+     * Updates an existing Good model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -110,7 +110,7 @@ class GoodsController extends Controller
     }
 
     /**
-     * Deletes an existing Goods model.
+     * Deletes an existing Good model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,15 +123,15 @@ class GoodsController extends Controller
     }
 
     /**
-     * Finds the Goods model based on its primary key value.
+     * Finds the Good model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Goods the loaded model
+     * @return Good the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Goods::findOne($id)) !== null) {
+        if (($model = Good::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

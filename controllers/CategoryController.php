@@ -7,9 +7,7 @@
  */
 
 namespace app\controllers;
-use app\models\Category;
 use app\models\Good;
-use app\modules\admin\models\Goods;
 use Yii;
 use yii\web\Controller;
 
@@ -18,10 +16,8 @@ class CategoryController extends Controller
     public function actionView(){
         $page=Yii::$app->request->get('name');
         $cat=Yii::$app->request->get('cat');
-        $goods=Goods::find()->where(['cat'=>$cat])->all();
+        $goods=Good::find()->where(['cat'=>$cat])->all();
         return $this->render($page, ['goods'=>$goods]);
-
-
     }
 
 }

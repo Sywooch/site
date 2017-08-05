@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e838184f0963bbcaf754ed47f8eac24",
+    "content-hash": "8f125f5d0f7468ae31d2f298a1992dfc",
     "packages": [
         {
             "name": "abeautifulsite/simpleimage",
@@ -420,6 +420,46 @@
                 "html"
             ],
             "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "mertvetsky/yii2-simple-container-configurator",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mertvetsky/yii2-simple-container-configurator.git",
+                "reference": "a489bcd0e3a87c9818036173abd0cd4f6fad4096"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mertvetsky/yii2-simple-container-configurator/zipball/a489bcd0e3a87c9818036173abd0cd4f6fad4096",
+                "reference": "a489bcd0e3a87c9818036173abd0cd4f6fad4096",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "mertvetsky\\yii2SimpleContainerConfigurator\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mertvetsky",
+                    "email": "mertvetsky@gmail.com"
+                }
+            ],
+            "description": "Simple extension for register Yii2 class definition",
+            "keywords": [
+                "configuration",
+                "yii2"
+            ],
+            "time": "2016-09-10T23:01:10+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3390,7 +3430,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "costa-rico/yii2-images": 20
     },

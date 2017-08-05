@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use app\modules\admin\models\Category;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Goods */
+/* @var $model \app\models\Good */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

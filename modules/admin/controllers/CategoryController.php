@@ -2,8 +2,8 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Category;
 use Yii;
-use app\modules\admin\models\Category;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
