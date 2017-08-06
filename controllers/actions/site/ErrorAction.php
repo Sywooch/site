@@ -1,5 +1,7 @@
 <?php
 
+namespace app\controllers\actions\site;
+
 use app\exceptions\NotFoundException;
 
 /**
@@ -12,7 +14,7 @@ class ErrorAction extends \yii\base\Action
 {
     public function run()
     {
-        $exception = Yii::$app->errorHandler->exception;
+        $exception = \Yii::$app->errorHandler->exception;
         if ($exception !== null) {
             if ($exception instanceof NotFoundException) { // todo add another errors and HTTP codes
                 return $this->controller->render('error', ['exception' => $exception]);
