@@ -14,6 +14,7 @@
 
          <?=Html::img('@web/web/img/car.jpg', ['id' => 'car'])?>
         <div id="output">
+
              <?php foreach ($goods as $good) {?>
                     <div class="product">
 

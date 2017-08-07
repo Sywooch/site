@@ -16,10 +16,12 @@ use app\models\OrderItem;
 use app\services\CartService;
 use Yii;
 use yii\base\Module;
+use yii\db\Expression;
 use yii\web\Controller;
 
 class CardController extends Controller
 {
+
     /**
      * @var CartService
      */
@@ -131,12 +133,14 @@ class CardController extends Controller
         $session = Yii::$app->session;
         $session->open();
         $order     = new Order();
-        $goods     = Cart::find()->where(['user_id' => $session['uniqid']])->indexBy('id')->all();
+        $goods     = Cart::find()->where(['user_id' => $session['uniqid']])->all();
         $total     = array_reduce($goods, $this->cartService->calcTotal());
         $total_qty = array_reduce($goods, $this->cartService->calcTotalQty());
         if ($order->load(Yii::$app->request->post())) {
             $order->qty = $total_qty;
             $order->sum = $total;
+            $order->created_at = new Expression('now()');
+            $order->updated_at = new Expression('now()');
             if ($order->save()) {
 
                 $this->saveOrderItems($goods, $order->id);
@@ -150,6 +154,7 @@ class CardController extends Controller
 
                 return $this->refresh();
             } else {
+                debug($order);
                 Yii::$app->session->setFlash('error', 'Ошибка оформления заказа');
             }
         }

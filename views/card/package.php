@@ -10,7 +10,7 @@ if (Yii::$app->session->hasFlash('success')){
 elseif (Yii::$app->session->hasFlash('error')){
     echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.Yii::$app->session->getFlash('error').'</div>';
 }
-if ($goods !== null){
+if ($goods != null){
 
     ?>
 

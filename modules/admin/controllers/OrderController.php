@@ -5,7 +5,7 @@ namespace app\modules\admin\controllers;
 use app\models\Order;
 use Yii;
 use yii\data\ActiveDataProvider;
-
+use yii\db\Expression;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -92,8 +92,13 @@ class OrderController extends AppAdminController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->getUpdatedTime($model);
+
+            if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         } else {
             return $this->render('update', [
                 'model' => $model,

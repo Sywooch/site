@@ -7,7 +7,6 @@
  */
 
 namespace app\exceptions;
-use app\exceptions\MyException;
 use yii\base\UserException;
 
 

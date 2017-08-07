@@ -21,6 +21,8 @@ class Good extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public $image;
+    public $gallery;
     public static function tableName()
     {
         return 'goods';
@@ -71,7 +73,11 @@ class Good extends ActiveRecord
             'gallery' => 'Галерея',
         ];
     }
-
+    /*
+     *@method Image[] getGallery()
+     *@property Image $image
+     *
+     */
     public function upload()
     {
         if ($this->validate()) {

@@ -60,6 +60,11 @@ class GoodController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    /*
+     *@method Image[] getGallery()
+     *@property Image $image
+     *
+     */
     public function actionCreate()
     {
         $model = new Good();
@@ -67,10 +72,10 @@ class GoodController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Товар успешно добавлен');
             $model->image = UploadedFile::getInstance($model, 'image');
-//            if ($model->upload()) {
-//                debug($_FILES);
-//                return $this->redirect(['view', 'id' => $model->id]);
-//            }
+            if ($model->upload()) {
+                debug($_FILES);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
 
             return $this->render('create', ['model' => $model]);

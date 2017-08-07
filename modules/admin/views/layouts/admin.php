@@ -23,7 +23,7 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div id="main">
         <div id="header">
-            <a href="/post/index"><?= Html::img('@web/web/img/logo.png', ['alt' => 'Наш логотип', 'class' => 'head', 'id' => 'logo']) ?></a>
+            <a href="/post/catalog"><?= Html::img('@web/web/img/logo.png', ['alt' => 'Наш логотип', 'class' => 'head', 'id' => 'logo']) ?></a>
             <div class="head" id="topic_text">
                 Тема для интернет-магазина на платформе InSales<br>
                 Тема "Карбон" для интернет-магазина на платформе<br>
@@ -41,8 +41,8 @@ AppAsset::register($this);
 
             <div class="cell"><?=Html::a('КАТЕГОРИИ', ['category/index'], ['class' => 'cell_a'])?></div>
             <div class="cell"><?=Html::a('СОЗДАТЬ КАТЕГОРИЮ', ['category/create'], ['class' => 'cell_a'])?></div>
-            <div class="cell"><?=Html::a('ТОВАРЫ', ['goods/index'], ['class' => 'cell_a'])?></div>
-            <div class="cell"><?=Html::a('ДОБАВИТЬ ТОВАР', ['goods/create'], ['class' => 'cell_a'])?></div>
+            <div class="cell"><?=Html::a('ТОВАРЫ', ['good/index'], ['class' => 'cell_a'])?></div>
+            <div class="cell"><?=Html::a('ДОБАВИТЬ ТОВАР', ['good/create'], ['class' => 'cell_a'])?></div>
             <?php if(!Yii::$app->user->isGuest):?>
                 <div class="cell"><?=Html::a('<span class="glyphicon glyphicon-log-out"></span>Logout', ['/site/logout'], ['class' => 'cell_a'])?>
                     <?=Yii::$app->user->identity['username']?></div>
