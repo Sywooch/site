@@ -2,7 +2,6 @@
 namespace app\controllers\actions\site;
 use app\exceptions\NotFoundException;
 use yii\web\NotFoundHttpException;
-
 /**
  * Created by PhpStorm.
  * User: mert
@@ -17,8 +16,7 @@ class ErrorAction extends \yii\base\Action
         if ($exception !== null) {
             if ($exception instanceof NotFoundException) { // todo add another errors and HTTP codes
                 return $this->controller->render('error', ['exception' => $exception]);
-            }
-            if($exception instanceof NotFoundHttpException){
+            }if($exception instanceof NotFoundHttpException){
                 return $this->controller->render('error', ['exception' => $exception]);
             }
         }
